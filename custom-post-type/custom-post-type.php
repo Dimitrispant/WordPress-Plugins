@@ -22,6 +22,10 @@ class CustomPostType
       add_action( 'init', array ( $this, 'custom_post_type' ) );
     }
   
+    function register() {
+      add_action ( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+    }
+    
     function activate() {
       // generated a CPT - If init fails
       $this->custom_post_type();
@@ -36,13 +40,19 @@ class CustomPostType
   
     function custom_post_type() {
       register_post_type( 'example', ['public' => true, 'label' => 'Example'] );
-      
+    }
+    
+    function enqueue () {
+       // enqueue all our scripts
+       wp_enqueue_style ( 'pluginstyle', plugins_url( '/assets/style.css', __FILE__) );
+       wp_enqueue_style ( 'pluginscript', plugins_url( '/assets/scripts.js', __FILE__) );
     }
   
 }
 
 if ( class_exists( 'CustomPostType' ) ){
   $customPostType = new CustomPostType();
+  $customPostType->register();
 }
 
 // Activation
