@@ -17,13 +17,13 @@ defined( 'ABSPATH' ) or die( 'You do not have the right to do it!' );
 
 class CustomPostType
 {
-    
-    function __construct() {
-      add_action( 'init', array ( $this, 'custom_post_type' ) );
-    }
   
     function register() {
       add_action ( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
+    }
+    
+    protected function create_post_type() {
+      add_action( 'init', array ( $this, 'custom_post_type' ) );
     }
     
     function activate() {
